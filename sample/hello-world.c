@@ -112,7 +112,9 @@ conn_writecb(struct bufferevent *bev, void *user_data)
 	struct evbuffer *output = bufferevent_get_output(bev);
 	if (evbuffer_get_length(output) == 0) {
 		printf("flushed answer\n");
-		bufferevent_free(bev);
+		bufferevent_free(bev); // here the socket connecting to the client
+		                       // is also closed due to flag BEV_OPT_CLOSE_ON_FREE
+							   // the client will output "Connection closed by foreign host"
 	}
 }
 
