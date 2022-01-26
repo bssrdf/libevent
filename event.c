@@ -3845,6 +3845,7 @@ event_base_foreach_event(struct event_base *base,
 		return -1;
 	}
 	EVBASE_ACQUIRE_LOCK(base, th_base_lock);
+	event_debug(("%s: calling callback on events ", __func__));
 	r = event_base_foreach_event_nolock_(base, fn, arg);
 	EVBASE_RELEASE_LOCK(base, th_base_lock);
 	return r;

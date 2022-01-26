@@ -295,7 +295,7 @@ event_listener_destroy(struct evconnlistener *lev)
 {
 	struct evconnlistener_event *lev_e =
 	    EVUTIL_UPCAST(lev, struct evconnlistener_event, base);
-
+	event_debug(("%s: destroy listener", __func__));
 	event_del(&lev_e->listener);
 	if (lev->flags & LEV_OPT_CLOSE_ON_FREE)
 		evutil_closesocket(event_get_fd(&lev_e->listener));

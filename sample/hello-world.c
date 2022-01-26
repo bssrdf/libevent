@@ -48,6 +48,8 @@ main(int argc, char **argv)
 	WSAStartup(0x0201, &wsa_data);
 #endif
 
+    event_enable_debug_logging(EVENT_DBG_ALL); 
+
 	base = event_base_new();
 	if (!base) {
 		fprintf(stderr, "Could not initialize libevent!\n");
@@ -90,7 +92,7 @@ listener_cb(struct evconnlistener *listener, evutil_socket_t fd,
 {
 	struct event_base *base = user_data;
 	struct bufferevent *bev;
-
+    // fd is the socket returned from accept() called in listener's read event callback
 	bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
 	if (!bev) {
 		fprintf(stderr, "Error constructing bufferevent!");
@@ -125,6 +127,7 @@ conn_eventcb(struct bufferevent *bev, short events, void *user_data)
 	}
 	/* None of the other events can happen here, since we haven't enabled
 	 * timeouts */
+	printf("Free bufferevent.\n");
 	bufferevent_free(bev);
 }
 
