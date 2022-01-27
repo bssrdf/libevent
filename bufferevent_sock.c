@@ -604,7 +604,7 @@ be_socket_destruct(struct bufferevent *bufev)
 	struct bufferevent_private *bufev_p = BEV_UPCAST(bufev);
 	evutil_socket_t fd;
 	EVUTIL_ASSERT(BEV_IS_SOCKET(bufev));
-
+    event_debug(("%s: close socket if option is set", __func__));
 	fd = event_get_fd(&bufev->ev_read);
 
 	if ((bufev_p->options & BEV_OPT_CLOSE_ON_FREE) && fd >= 0)
